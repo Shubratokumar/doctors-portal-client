@@ -22,7 +22,7 @@ const Testimonials = () => {
             img: people2
         },
         {
-            _id: 2,
+            _id: 3,
             name: "Adam Carry",
             review: "",
             location: "New York",
