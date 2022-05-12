@@ -11,11 +11,11 @@ const AppointmentBanner = ({date, setDate}) => {
     <section >
       <div 
         style={{background: `url(${bg})`}}
-      class="hero min-h-screen">
-        <div class="hero-content flex-col lg:flex-row-reverse">
+      className="hero min-h-screen">
+        <div className="hero-content flex-col lg:flex-row-reverse">
           <img
             src={chair}
-            class="max-w-sm lg:max-w-lg rounded-lg shadow-2xl"
+            className="max-w-sm lg:max-w-lg rounded-lg shadow-2xl"
             alt="Chair"
           />
           <div className="px-14 lg:px-24">
