@@ -14,11 +14,11 @@ const MakeAppointment = () => {
       </div>
       <div className="flex-1">
         <div className="p-4">
-          <p className="text-xl text-primary font-bold">Appointment</p>
-          <h1 className="text-4xl font-semibold text-white">
+          <p className="text-xl text-primary font-bold ">Appointment</p>
+          <h1 className="text-4xl font-semibold text-white py-5">
             Make an appointment Today
           </h1>
-          <p className="py-6 text-white">
+          <p className="py-6 text-white pb-5">
             It is a long established fact that a reader will be distracted by
             the readable content of a page when looking at its layout. The point
             of using Lorem Ipsumis that it has a more-or-less normal

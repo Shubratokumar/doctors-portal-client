@@ -13,39 +13,36 @@ const Footer = () => {
         }}
       >
         <div>
-          <span className="footer-title">Services</span>
+          <span className="footer-title">SERVICES</span>
           <Link to="" className="link link-hover">
-            Branding
+          Emergency Checkup
           </Link>
           <Link to="" className="link link-hover">
-            Design
+          Monthly Checkup
           </Link>
           <Link to="" className="link link-hover">
-            Marketing
+          Weekly Checkup
           </Link>
           <Link to="" className="link link-hover">
-            Advertisement
+          Deep Checkup
           </Link>
         </div>
         <div>
-          <span className="footer-title">Company</span>
+          <span className="footer-title">ORAL HEALTH</span>
           <Link to="" className="link link-hover">
-            About us
+          Fluoride Treatment
           </Link>
           <Link to="" className="link link-hover">
-            Contact
+          Cavity Filling
           </Link>
           <Link to="" className="link link-hover">
-            Jobs
-          </Link>
-          <Link to="" className="link link-hover">
-            Press kit
+          Teath Whitening
           </Link>
         </div>
         <div>
           <span className="footer-title">Legal</span>
           <Link to="" className="link link-hover">
-            Terms of use
+            Terms of Treatment
           </Link>
           <Link to="" className="link link-hover">
             Privacy policy
