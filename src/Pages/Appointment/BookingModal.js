@@ -1,8 +1,16 @@
 import { format } from "date-fns";
 import React from "react";
 
-const BookingModal = ({ treatment, date }) => {
-  const { name, slots } = treatment;
+const BookingModal = ({ treatment, date, setTreatment }) => {
+  const { _id, name, slots } = treatment;
+
+  const handleBooking = event =>{
+      event.preventDefault();
+      const slot = event.target.slot.value;
+      console.log(_id, name,slot, date);
+    // set null to close the modal
+      setTreatment(null);
+  }
   return (
     <div>
       <input type="checkbox" id="booking-modal" className="modal-toggle" />
@@ -15,38 +23,45 @@ const BookingModal = ({ treatment, date }) => {
             ✕
           </label>
           <h3 className="font-semibold text-lg text-secondary mb-8">{name}</h3>
-          <input
-            type="text"
-            value={format(date, "PP")}
-            class="input input-bordered input-primary w-full max-w-lg mb-5"
-            disabled
-          />
-          <input
-            type="text"
-            value={slots[0]}
-            class="input input-bordered input-primary w-full max-w-lg mb-5"
-            disabled
-          />
-          <input
-            type="text"
-            placeholder="Full Name"
-            class="input input-bordered input-primary w-full max-w-lg mb-5"
-          />
-          <input
-            type="number"
-            placeholder="Phone Number"
-            class="input input-bordered input-primary w-full max-w-lg mb-5"
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            class="input input-bordered input-primary w-full max-w-lg mb-5"
-          />
-          <div className="modal-action">
-            <label htmlFor="booking-modal" className="btn w-full max-w-lg">
-              Yay!
-            </label>
-          </div>
+          <form onSubmit={handleBooking}>
+            <input
+              type="text"
+              value={format(date, "PP")}
+              className="input input-bordered input-primary w-full max-w-lg mb-5"
+              disabled
+            />
+            <select
+              name="slot"
+              className="select select-bordered w-full max-w-lg mb-5"
+            >
+              {slots.map((slot) => (
+                <option value={slot}>{slot}</option>
+              ))}
+            </select>
+            <input
+              name="name"
+              type="text"
+              placeholder="Full Name"
+              className="input input-bordered input-primary w-full max-w-lg mb-5"
+            />
+            <input
+              name="number"
+              type="number"
+              placeholder="Phone Number"
+              className="input input-bordered input-primary w-full max-w-lg mb-5"
+            />
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              className="input input-bordered input-primary w-full max-w-lg mb-5"
+            />
+            <input
+              type="submit"
+              value="Submit"
+              className="btn w-full max-w-lg text-base font-normal"
+            />
+          </form>
         </div>
       </div>
     </div>
