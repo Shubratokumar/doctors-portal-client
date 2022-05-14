@@ -12,7 +12,7 @@ const SignUp = () => {
         user,
         loading,
         error,
-      ] = useCreateUserWithEmailAndPassword(auth);
+      ] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification : true});
     
     const [updateProfile, updating, uError] = useUpdateProfile(auth);
     
@@ -41,11 +41,10 @@ const SignUp = () => {
   }
 
   const onSubmit = async(data) =>{
-      console.log(data);
-      await createUserWithEmailAndPassword(data.email, data.password);
-      await updateProfile({ displayName : data.name });
-      navigate(from, { replace: true });   
-      console.log("Update done")
+    console.log(data);
+    await createUserWithEmailAndPassword(data.email, data.password);
+    await updateProfile({ displayName : data.name });
+    navigate(from, { replace: true }); 
   } 
     return (
         <div className="flex h-screen justify-center items-center">
@@ -58,7 +57,7 @@ const SignUp = () => {
                 <span className="text-sm">Name</span>
               </label>
               <input
-                {...register("Name", {
+                {...register("name", {
                   required: {
                     value: true,
                     message: "Name is required ",

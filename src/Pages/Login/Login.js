@@ -1,11 +1,13 @@
-import React from "react";
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import React, { useEffect, useState } from "react";
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { useForm } from "react-hook-form";
 import Loading from './../Shared/Loading';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const [ email, setEmail] = useState("");
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const [
     signInWithEmailAndPassword,
@@ -13,15 +15,26 @@ const Login = () => {
     loading,
     error,
   ] = useSignInWithEmailAndPassword(auth);
+  const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const handleEmail = e =>{
+    setEmail(e.target.value);
+  }
 
   const navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
+
+  useEffect(()=>{
+    if (gUser || user) {
+      navigate(from, { replace: true });
+      console.log(gUser || user);
+    }
+  },[user, gUser, from, navigate])
 
   let signInError;
 
@@ -33,15 +46,20 @@ const Login = () => {
       return <Loading></Loading>
 
   }
-  if (gUser || user) {
-    navigate(from, { replace: true });
-    console.log(gUser || user);
-  }
   const onSubmit = (data) =>{
       console.log(data);
-      signInWithEmailAndPassword(data.email, data.password);
-         
+      signInWithEmailAndPassword(data.email, data.password); 
   } 
+
+  const resetPassword = async() =>{
+    if(email){
+      await sendPasswordResetEmail(email)
+      toast.success("Email Sent successfully !!!")
+    }
+    else{
+      toast.error("Enter Your Email First !!!")
+    }
+  }
 
   
   return (
@@ -66,6 +84,8 @@ const Login = () => {
                   },
                 })}
                 type="email"
+                name="email"
+                onBlur={handleEmail}
                 placeholder="Your Email"
                 className="input input-bordered w-full max-w-xs"
               />
@@ -115,8 +135,11 @@ const Login = () => {
               </label>
             </div>
             {signInError}
+            
             <input className="btn w-full text-white text-base font-normal" type="submit" value="Login" />
           </form>
+          <p className=" text-center text-xs pb-3 text-black">Forgot Password ? 
+            <button onClick={resetPassword} className="btn btn-link text-xs font-normal text-secondary">Reset Password</button></p>
           <p className="text-sm text-center">New to Doctors Portal ? <Link to="/signup"><span className="text-secondary">Create New Account</span></Link></p>
           <div className="divider">OR</div>
           <button onClick={() => signInWithGoogle()} className="btn btn-outline ">
