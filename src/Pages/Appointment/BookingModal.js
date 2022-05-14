@@ -2,17 +2,43 @@ import React from "react";
 import { format } from "date-fns";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from './../../firebase.init';
+import { toast } from 'react-hot-toast';
 
 const BookingModal = ({ treatment, date, setTreatment }) => {
   const { _id, name, slots } = treatment;
   const [user] = useAuthState(auth);
+  const formattedDate = format(date, "PP");
 
   const handleBooking = event =>{
       event.preventDefault();
       const slot = event.target.slot.value;
-      console.log(_id, name,slot, date);
-    // set null to close the modal
-      setTreatment(null);
+      const phone = event.target.phone.value;
+      // console.log(_id, name,slot, date);
+
+      const booking = {
+         treatmentId: _id, 
+         treatment : name,
+         date : formattedDate,
+         patientEmail : user.email,
+         patientName : user.displayName,
+         slot,
+         phone,
+      }
+      // data send to the database
+      fetch('http://localhost:5000/booking',{
+        method: 'POST',
+        headers: {
+          "Content-Type": "Application/json"
+        },
+        body : JSON.stringify(booking)
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        // set null to close the modal
+          setTreatment(null);
+          toast.success(`Booking ${name} done !!!`)
+      })
   }
   return (
     <div>
@@ -58,7 +84,7 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
               className="input input-bordered input-primary w-full max-w-lg mb-5"
             />
             <input
-              name="number"
+              name="phone"
               type="number"
               placeholder="Phone Number"
               className="input input-bordered input-primary w-full max-w-lg mb-5"

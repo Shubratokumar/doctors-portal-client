@@ -138,7 +138,7 @@ const Login = () => {
             
             <input className="btn w-full text-white text-base font-normal" type="submit" value="Login" />
           </form>
-          <p className=" text-center text-xs pb-3 text-black">Forgot Password ? 
+          <p className=" text-center text-xs text-black">Forgot Password ? 
             <button onClick={resetPassword} className="btn btn-link text-xs font-normal text-secondary">Reset Password</button></p>
           <p className="text-sm text-center">New to Doctors Portal ? <Link to="/signup"><span className="text-secondary">Create New Account</span></Link></p>
           <div className="divider">OR</div>
