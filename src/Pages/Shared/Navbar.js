@@ -3,11 +3,11 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import auth from "../../firebase.init";
+import { AiOutlineMenuFold } from 'react-icons/ai';
 
 const Navbar = () => {
 
   const [user] = useAuthState(auth);
-
 
   const menuItem = (
     <>
@@ -72,6 +72,11 @@ const Navbar = () => {
       </div>
       <div className="navbar-end hidden lg:flex">
         <ul className="menu menu-horizontal p-0">{menuItem}</ul>
+      </div>
+      <div className="navbar-end lg:hidden">
+        <label htmlFor="dashboard-slider" className="btn btn-ghost  drawer-button text-xl">
+          <AiOutlineMenuFold/>
+        </label>
       </div>
     </div>
   );

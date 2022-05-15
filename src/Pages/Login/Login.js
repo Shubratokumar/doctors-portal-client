@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Loading from './../Shared/Loading';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import toast from "react-hot-toast";
+import useToken from '../../hooks/useToken';
 
 const Login = () => {
   const [ email, setEmail] = useState("");
@@ -25,21 +26,23 @@ const Login = () => {
     setEmail(e.target.value);
   }
 
+  const [token] = useToken(user || gUser);
+
   const navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
 
   useEffect(()=>{
-    if (gUser || user) {
+    if (token) {
       navigate(from, { replace: true });
       console.log(gUser || user);
     }
-  },[user, gUser, from, navigate])
+  },[token, user, gUser, from, navigate])
 
   let signInError;
 
   if(error || gError){
-    signInError = <p className="text-red-500"><small>{error?.message || gError?.message}</small></p>
+    signInError = <p className="text-red-500 pb-3"><small>{error?.message || gError?.message}</small></p>
   }
 
   if( loading || gLoading){
