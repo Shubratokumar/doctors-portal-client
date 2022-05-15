@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
+import { signOut } from "firebase/auth";
+import { toast } from 'react-hot-toast';
 
 const MyAppointment = () => {
   const [appointments, setAppointments] = useState([]);
@@ -10,9 +12,20 @@ const MyAppointment = () => {
   useEffect(() => {
     if (email) {
       const url = `http://localhost:5000/booking?patientEmail=${email}`;
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => setAppointments(data));
+      fetch(url, {
+        method: "GET",
+        headers:{
+          'authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      })
+        .then((res) => {
+          if(res.status === 401 || res.status === 403){
+            toast.error(`${res.statusText}`)
+            signOut(auth);
+            localStorage.removeItem('accessToken');
+          }
+          return res.json()})
+        .then((data) =>  {setAppointments(data)});
     }
   }, [email]);
   return (
@@ -29,7 +42,7 @@ const MyAppointment = () => {
             </tr>
           </thead>
           <tbody>
-            {appointments.map((a, index) => (
+            {appointments?.map((a, index) => (
               <>
                 <tr key={a._id} className="hover">
                   <th>{index + 1}</th>

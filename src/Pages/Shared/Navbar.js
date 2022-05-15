@@ -8,6 +8,10 @@ import { AiOutlineMenuFold } from 'react-icons/ai';
 const Navbar = () => {
 
   const [user] = useAuthState(auth);
+  const logout = () =>{
+    signOut(auth);
+    localStorage.removeItem('accessToken');
+  }
 
   const menuItem = (
     <>
@@ -32,7 +36,7 @@ const Navbar = () => {
       <li>
         {
           user?.uid ? 
-          <Link onClick={()=>signOut(auth)} className="btn btn-primary text-white" to="/login">Sign Out</Link> 
+          <Link onClick={logout} className="btn btn-primary text-white" to="/login">Sign Out</Link> 
           : 
           <Link to="/login">Login</Link>
         }
