@@ -1,50 +1,51 @@
 import React from "react";
 import { format } from "date-fns";
-import { useAuthState } from 'react-firebase-hooks/auth';
-import auth from './../../firebase.init';
-import { toast } from 'react-hot-toast';
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "./../../firebase.init";
+import { toast } from "react-hot-toast";
 
 const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
   const { _id, name, slots } = treatment;
   const [user] = useAuthState(auth);
   const formattedDate = format(date, "PP");
 
-  const handleBooking = event =>{
-      event.preventDefault();
-      const slot = event.target.slot.value;
-      const phone = event.target.phone.value;
+  const handleBooking = (event) => {
+    event.preventDefault();
+    const slot = event.target.slot.value;
+    const phone = event.target.phone.value;
 
-      const booking = {
-         treatmentId: _id, 
-         treatment : name,
-         date : formattedDate,
-         patientEmail : user.email,
-         patientName : user.displayName,
-         slot,
-         phone,
-      }
-      // data send to the database
-      fetch('http://localhost:5000/booking',{
-        method: 'POST',
-        headers: {
-          "Content-Type": "Application/json"
-        },
-        body : JSON.stringify(booking)
-      })
-      .then(res => res.json())
-      .then(data => {
+    const booking = {
+      treatmentId: _id,
+      treatment: name,
+      date: formattedDate,
+      patientEmail: user.email,
+      patientName: user.displayName,
+      slot,
+      phone,
+    };
+    // data send to the database
+    fetch("https://nameless-cliffs-91831.herokuapp.com/booking", {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => {
         console.log(data);
-        if(data.success){
-          toast.success(`Appointment is set ${formattedDate} at ${slot}.`)
+        if (data.success) {
+          toast.success(`Appointment is set ${formattedDate} at ${slot}.`);
+        } else {
+          toast.error(
+            `Already have an appointment on ${data.booking?.date} at ${data.booking?.slot}`
+          );
         }
-        else{
-          toast.error(`Already have an appointment on ${data.booking?.date} at ${data.booking?.slot}`)
-        }
-        refetch()
+        refetch();
         // set null to close the modal
-          setTreatment(null);
-      })
-  }
+        setTreatment(null);
+      });
+  };
   return (
     <div>
       <input type="checkbox" id="booking-modal" className="modal-toggle" />
@@ -68,10 +69,10 @@ const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
               name="slot"
               className="select select-bordered w-full max-w-lg mb-5"
             >
-              {slots.map((slot, index) => (<option
-              key={index} 
-              value={slot}
-              >{slot}</option>
+              {slots.map((slot, index) => (
+                <option key={index} value={slot}>
+                  {slot}
+                </option>
               ))}
             </select>
             <input

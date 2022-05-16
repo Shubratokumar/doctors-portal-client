@@ -4,14 +4,17 @@ import Loading from "../Shared/Loading";
 import UserRow from "./UserRow";
 
 const Users = () => {
-  const { isLoading, data: users, refetch } = useQuery("users", () =>
-    fetch("http://localhost:5000/user",{
-        method: "GET",
-        headers:{
-            'authorization' : `Bearer ${localStorage.getItem('accessToken')}`
-        }
-    })
-    .then((res) => res.json())
+  const {
+    isLoading,
+    data: users,
+    refetch,
+  } = useQuery("users", () =>
+    fetch("https://nameless-cliffs-91831.herokuapp.com/user", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((res) => res.json())
   );
   if (isLoading) {
     return <Loading></Loading>;
@@ -30,12 +33,14 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {users?.map((user, index) => <UserRow 
-                user={user}  
+            {users?.map((user, index) => (
+              <UserRow
+                user={user}
                 key={user._id}
                 index={index}
                 refetch={refetch}
-                ></UserRow> )}
+              ></UserRow>
+            ))}
           </tbody>
         </table>
       </div>

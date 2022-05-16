@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { signOut } from "firebase/auth";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 
 const MyAppointment = () => {
   const [appointments, setAppointments] = useState([]);
@@ -11,21 +11,24 @@ const MyAppointment = () => {
 
   useEffect(() => {
     if (email) {
-      const url = `http://localhost:5000/booking?patientEmail=${email}`;
+      const url = `https://nameless-cliffs-91831.herokuapp.com/booking?patientEmail=${email}`;
       fetch(url, {
         method: "GET",
-        headers:{
-          'authorization' : `Bearer ${localStorage.getItem('accessToken')}`
-        }
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       })
         .then((res) => {
-          if(res.status === 401 || res.status === 403){
-            toast.error(`${res.statusText}`)
+          if (res.status === 401 || res.status === 403) {
+            toast.error(`${res.statusText}`);
             signOut(auth);
-            localStorage.removeItem('accessToken');
+            localStorage.removeItem("accessToken");
           }
-          return res.json()})
-        .then((data) =>  {setAppointments(data)});
+          return res.json();
+        })
+        .then((data) => {
+          setAppointments(data);
+        });
     }
   }, [email]);
   return (
