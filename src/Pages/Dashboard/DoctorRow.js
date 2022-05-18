@@ -1,25 +1,9 @@
 import React from 'react';
-import { toast } from 'react-hot-toast';
 
-const DoctorRow = ({ doctor, index, refetch }) => {
+
+const DoctorRow = ({ doctor, index,  setDeletingDoctor }) => {
     const {name, email, img, specialty } = doctor;
 
-    const confirmDelete = (email) =>{
-        const url = `http://localhost:5000/doctor/${email}`
-        fetch(url, {
-            method : "DELETE",
-            headers : {
-                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-        })
-        .then(res => res.json())
-        .then(data =>{
-            if(data.deletedCount > 0){
-                toast.success(`Successfully removed ${name}.`)
-                refetch()
-            }
-        })
-    }
     return (
         <tr className="hover">
             <th>{index + 1}</th>
@@ -28,12 +12,14 @@ const DoctorRow = ({ doctor, index, refetch }) => {
             <td>
                 <div className="avatar">
                     <div className="w-12 mask mask-squircle">
-                        <img src={img} alt='' />
+                        <img src={img} alt={name} />
                     </div>
                 </div>
             </td>
             <td>{specialty}</td>
-            <td>{<button onClick={()=>confirmDelete(email)} className="btn btn-xs btn-error">Remove Doctor</button>}</td>
+            <td>
+                <label onClick={()=>setDeletingDoctor(doctor)} for="delete-confirm-modal" className="btn modal-button btn-xs btn-error">Delete</label>
+            </td>
         </tr>
     );
 };

@@ -24,7 +24,7 @@ const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
       phone,
     };
     // data send to the database
-    fetch("https://nameless-cliffs-91831.herokuapp.com/booking", {
+    fetch("http://localhost:5000/booking", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
