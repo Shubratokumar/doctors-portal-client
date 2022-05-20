@@ -28,7 +28,7 @@ const DeleteConfirmModal = ({deletingDoctor, refetch, setDeletingDoctor}) => {
             <div className="modal-box">
                 <h3 className="font-bold text-lg text-red-500">Are you sure you want to delete {name}!</h3>
                 <p className="py-4">
-                    Once you remove {name} his or her information will be removed from UI as well as Database. So, think once before removing {name}.
+                    Once you remove {name}. His or her information will be removed from UI as well as Database. So, think once before removing {name}.
                 </p>
                 <div className="modal-action">
                 <button onClick={()=>confirmDelete(email)} className="btn btn-xs btn-error">Remove Doctor</button>  

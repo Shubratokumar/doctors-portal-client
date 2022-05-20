@@ -3,6 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { signOut } from "firebase/auth";
 import { toast } from "react-hot-toast";
+import { Link } from 'react-router-dom';
 
 const MyAppointment = () => {
   const [appointments, setAppointments] = useState([]);
@@ -42,6 +43,7 @@ const MyAppointment = () => {
               <th>Date</th>
               <th>Time</th>
               <th>Treatment</th>
+              <th>Payment</th>
             </tr>
           </thead>
           <tbody>
@@ -53,6 +55,10 @@ const MyAppointment = () => {
                   <td>{a.date}</td>
                   <td>{a.slot}</td>
                   <td>{a.treatment}</td>
+                  <td>
+                    {(a.price && !a.paid) && <Link to={`/dashboard/payment/${a._id}`} className="btn btn-xs btn-success">Pay</Link>}
+                    {(a.price && a.paid) && <span className="text-success">Paid</span>}
+                  </td>
                 </tr>
               </>
             ))}

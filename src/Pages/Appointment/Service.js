@@ -1,7 +1,7 @@
 import React from "react";
 
 const Service = ({ service, setTreatment }) => {
-  const { name, slots } = service;
+  const { name, slots, price } = service;
   return (
     <section className="px-5">
       <div className="card lg:max-w-lg bg-base-100 shadow-xl items-center">
@@ -20,6 +20,7 @@ const Service = ({ service, setTreatment }) => {
             {slots.length}{" "}
             {slots.length > 1 ? "spaces available" : "space available"}
           </p>
+          <p><small>Price : $ {price}</small></p>
           <div className="card-actions justify-center mt-5">
             <label
               disabled={slots.length === 0}
