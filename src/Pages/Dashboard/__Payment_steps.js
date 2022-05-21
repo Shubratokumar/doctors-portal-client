@@ -8,5 +8,9 @@
  * 6. Get Card Elemets info (Credit Card Info);
  * 7. Get Credit Card Info or Error & display card error (if any) 
  * ----------------------------------------------------------------
- * 8. 
+ * 8. Install stripe at backend (npm install --save stripe);
+ * 9. get client secret from backend via Paymentintent POST API;
+ * 10. require stripe and give secret key(sk);
+ * 11. Store client secret on the client side;
+ * 12. 
  */

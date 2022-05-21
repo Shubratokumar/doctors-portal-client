@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Loading from "../Shared/Loading";
 import DeleteConfirmModal from "./DeleteConfirmModal";
-import DoctorRow from './DoctorRow';
+import DoctorRow from "./DoctorRow";
 
 const ManageDoctors = () => {
-  const [ deletingDoctor, setDeletingDoctor ] = useState(null);
-  const { data: doctors, isLoading, refetch } = useQuery("doctors", () =>
-    fetch("http://localhost:5000/doctor", {
+  const [deletingDoctor, setDeletingDoctor] = useState(null);
+  const {
+    data: doctors,
+    isLoading,
+    refetch,
+  } = useQuery("doctors", () =>
+    fetch("https://nameless-cliffs-91831.herokuapp.com/doctor", {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
@@ -43,13 +47,13 @@ const ManageDoctors = () => {
           </tbody>
         </table>
       </div>
-      {
-        deletingDoctor &&  <DeleteConfirmModal
-        deletingDoctor={deletingDoctor}
-        refetch={refetch}
-        setDeletingDoctor={setDeletingDoctor}
+      {deletingDoctor && (
+        <DeleteConfirmModal
+          deletingDoctor={deletingDoctor}
+          refetch={refetch}
+          setDeletingDoctor={setDeletingDoctor}
         ></DeleteConfirmModal>
-      }
+      )}
     </div>
   );
 };

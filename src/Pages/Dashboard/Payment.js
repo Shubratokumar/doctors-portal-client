@@ -4,13 +4,15 @@ import { useQuery } from "react-query";
 import Loading from "../Shared/Loading";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckoutForm from './CheckoutForm';
+import CheckoutForm from "./CheckoutForm";
 
-const stripePromise = loadStripe("pk_test_51L1FBWBk9lrymgDjTrt9nvixf0uGu6IgC6rkkcubXkvqhbBCajektIsyKIhQ7dOwMiWXuc5kQwKuDlI6DeDTr7g400Fbr2eiqp");
+const stripePromise = loadStripe(
+  "pk_test_51L1FBWBk9lrymgDjTrt9nvixf0uGu6IgC6rkkcubXkvqhbBCajektIsyKIhQ7dOwMiWXuc5kQwKuDlI6DeDTr7g400Fbr2eiqp"
+);
 
 const Payment = () => {
   const { id } = useParams();
-  const url = `http://localhost:5000/booking/${id}`;
+  const url = `https://nameless-cliffs-91831.herokuapp.com/booking/${id}`;
   const { data: appointment, isLoading } = useQuery("booking", () =>
     fetch(url, {
       method: "GET",
@@ -28,7 +30,9 @@ const Payment = () => {
     <div>
       <div className="card w-50 max-w-md bg-base-100 shadow-xl my-12">
         <div className="card-body">
-          <p className="text-success font-bold">Hello, {appointment.patientName}</p>
+          <p className="text-success font-bold">
+            Hello, {appointment.patientName}
+          </p>
           <h2 className="card-title">Please Pay for {appointment.treatment}</h2>
           <p>
             Your Appointment :{" "}
@@ -41,7 +45,7 @@ const Payment = () => {
       <div className="card flex-shrink-0 w-50 max-w-md shadow-2xl bg-base-100">
         <div className="card-body">
           <Elements stripe={stripePromise}>
-            <CheckoutForm />
+            <CheckoutForm appointment={appointment} />
           </Elements>
         </div>
       </div>
